@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import qq.upyachka.js.challenge.core.model.ScriptExecutionResult;
+import qq.upyachka.js.challenge.platform.script.ScriptExecutionResultDto;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
@@ -32,10 +32,10 @@ public class ScriptMeasurementsExecutorImpl implements ScriptMeasurementsExecuto
 
     /** Factory to instantiate script engine. */
     @Autowired
-    BeanFactory factory;
+    private BeanFactory factory;
 
     @Override
-    public ScriptExecutionResult execute(ScriptExecutionResult script, long times) {
+    public ScriptExecutionResultDto execute(ScriptExecutionResultDto script, long times) {
         ScriptEngine engine = (ScriptEngine)factory.getBean(JS_ENGINE);
         long startTime;
         long stopTime;
@@ -63,14 +63,22 @@ public class ScriptMeasurementsExecutorImpl implements ScriptMeasurementsExecuto
             LOG.error("Failed to evaluate script", e);
             script.setErrorCause(e);
         }
-        script.setOutput((output != null) ? output.toString() : null);
-        //script.setResult((String)scriptResult);
+        script.setOutput(convertToString(output));
+        script.setResult(convertToString(scriptResult));
         script.setExecutionTimeInNanoseconds(totalTime / times);
         script.setMinExecutionTimeInNanoseconds(minTime);
         LOG.debug("Last execution output:\n{}", output);
         return script;
     }
 
+    /**
+     * Converts on output object to {@link String}.
+     * @param output script result or output.
+     * @return String representation.
+     */
+    private String convertToString(Object output) {
+        return (output != null) ? output.toString() : null;
+    }
 /*
     public static void main(String[] args) throws ScriptException {
         String script = "for(i=0;i<10;i++) { printChallenge(i) }";

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: cat.inspiracio:rhino-js-engine:1.7.7.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/cat.inspiracio/rhino-js-engine/1.7.7.1/56ebbe24d31dd32f968bc899c43732b46f84955/rhino-js-engine-1.7.7.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/cat.inspiracio/rhino-js-engine/1.7.7.1/a5069ffd03bf5045188641220998dadc7ddc1aa/rhino-js-engine-1.7.7.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

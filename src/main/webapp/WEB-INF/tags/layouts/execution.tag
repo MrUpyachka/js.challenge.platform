@@ -9,7 +9,7 @@
         <c:out value="${executionData.getUsername()}" />
     </h5>
     <h5>
-        <c:out value="${executionData.getStartTime()}" />
+        <a href="./details?id=${executionData.getId()}"><c:out value="${executionData.getStartTime()}" /></a>
     </h5>
     <span class="label label-default">
         <c:choose>

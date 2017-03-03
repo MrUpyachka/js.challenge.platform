@@ -1,5 +1,7 @@
 package qq.upyachka.js.challenge.core.constants;
 
+import qq.upyachka.js.challenge.core.model.constants.ViewConst;
+
 /**
  * Defines commong URL constants.
  * Created on 25.02.17.
@@ -16,4 +18,6 @@ public final class UrlConst {
     /** Prefix to build redirect URL. */
     public static final String REDIRECT_URL_PREFIX = "redirect:/";
 
+    /** Path of {@link ViewConst#EXECUTION_DETAILS_VIEW}. */
+    public static final String EXECUTION_DETAILS_VIEW_PATH = "/details";
 }

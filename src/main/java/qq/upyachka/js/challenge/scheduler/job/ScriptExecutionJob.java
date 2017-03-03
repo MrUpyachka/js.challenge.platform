@@ -9,9 +9,9 @@ import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
-import qq.upyachka.js.challenge.core.model.ScriptExecutionResult;
 import qq.upyachka.js.challenge.core.model.ScriptExecutionResultDo;
 import qq.upyachka.js.challenge.core.repository.ScriptResultRepository;
+import qq.upyachka.js.challenge.platform.script.ScriptExecutionResultDto;
 import qq.upyachka.js.challenge.platform.script.executor.ScriptMeasurementsExecutor;
 
 import static qq.upyachka.js.challenge.platform.api.constants.PlatformConst.ITERATIONS_NUMBER_KEY;
@@ -45,7 +45,7 @@ public class ScriptExecutionJob extends QuartzJobBean {
         final Long iterationsNumber = (Long)dataMap.get(ITERATIONS_NUMBER_KEY);
         LOG.debug("Try handle script with ID {}", scriptId);
         ScriptExecutionResultDo execution = executions.findOne(scriptId);
-        ScriptExecutionResult result = executor.execute(parse(execution), iterationsNumber);
+        ScriptExecutionResultDto result = executor.execute(parse(execution), iterationsNumber);
         parseContent(result, execution);
         if (result.getErrorCause() == null) {
             LOG.debug("Script successfully executed.");

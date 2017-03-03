@@ -14,6 +14,7 @@ import qq.upyachka.js.challenge.platform.script.ScriptExecutionResultDto;
 import qq.upyachka.js.challenge.platform.script.ScriptExecutionResultParser;
 import qq.upyachka.js.challenge.platform.service.TopListService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -32,6 +33,7 @@ public class TopListServiceImpl implements TopListService {
     private ScriptResultRepository executions;
 
     @Override
+    @Transactional
     public List<ScriptExecutionResultDto> getTop100() {
         final Pageable top100 = new PageRequest(0, 100);
         final Page<ScriptExecutionResultDo> page = executions.getTop(top100);

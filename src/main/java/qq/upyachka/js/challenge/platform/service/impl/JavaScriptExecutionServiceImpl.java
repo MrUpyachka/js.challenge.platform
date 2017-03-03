@@ -23,11 +23,13 @@ import qq.upyachka.js.challenge.platform.script.ScriptExecutionResultDto;
 import qq.upyachka.js.challenge.platform.script.ScriptExecutionResultParser;
 import qq.upyachka.js.challenge.platform.service.JavaScriptExecutionService;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.Map;
 
 import static qq.upyachka.js.challenge.platform.api.constants.PlatformConst.ITERATIONS_NUMBER_KEY;
 import static qq.upyachka.js.challenge.platform.api.constants.PlatformConst.SCRIPT_KEY;
+import static qq.upyachka.js.challenge.platform.script.ScriptExecutionResultParser.wrapString;
 import static qq.upyachka.js.challenge.scheduler.SchedulerConst.*;
 
 /**
@@ -73,18 +75,12 @@ public class JavaScriptExecutionServiceImpl implements JavaScriptExecutionServic
         ScriptExecutionResultDo result = new ScriptExecutionResultDo();
         User user = users.findByUsername(username);
         result.setOwner(user);
-        result.setBody(script);
+        result.setBody(wrapString(script));
         result.setStartTime(new Date());
         ScriptExecutionResultDo saved = executions.save(result);
         result.setId(saved.getId());
         scheduleScriptExecution(result);
         return ScriptExecutionResultParser.parse(result);
-    }
-
-    @Override
-    public ScriptExecutionResultDo getExecution(long id) {
-        LOG.debug("Try to get executions results for {}", id);
-        return executions.getOne(id);
     }
 
     /**
@@ -109,6 +105,15 @@ public class JavaScriptExecutionServiceImpl implements JavaScriptExecutionServic
     }
 
     /**
+     * Returns name for job depends on script.
+     * @param id script data ID.
+     * @return name for job.
+     */
+    private String getJobNameForScript(Long id) {
+        return new StringBuilder(JOB_NAME_PREFIX).append('_').append(Long.toString(id)).toString();
+    }
+
+    /**
      * Returns trigger for job specified by name;
      * @param jobName name of job.
      * @return trigger to be used to start job.
@@ -117,12 +122,10 @@ public class JavaScriptExecutionServiceImpl implements JavaScriptExecutionServic
         return TriggerBuilder.newTrigger().withIdentity(jobName, JOB_GROUP).startNow().build();
     }
 
-    /**
-     * Returns name for job depends on script.
-     * @param id script data ID.
-     * @return name for job.
-     */
-    private String getJobNameForScript(Long id) {
-        return new StringBuilder(JOB_NAME_PREFIX).append('_').append(Long.toString(id)).toString();
+    @Override
+    @Transactional
+    public ScriptExecutionResultDto getExecution(long id) {
+        LOG.debug("Try to get executions results for {}", id);
+        return ScriptExecutionResultParser.parse(executions.getOne(id));
     }
 }

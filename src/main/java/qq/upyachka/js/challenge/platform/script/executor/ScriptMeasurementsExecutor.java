@@ -1,6 +1,6 @@
 package qq.upyachka.js.challenge.platform.script.executor;
 
-import qq.upyachka.js.challenge.core.model.ScriptExecutionResult;
+import qq.upyachka.js.challenge.platform.script.ScriptExecutionResultDto;
 
 /**
  * Executes specified script with time measurements.
@@ -15,5 +15,5 @@ public interface ScriptMeasurementsExecutor {
      * @param times number of repeats to calculate average time.
      * @return object with results.
      */
-    ScriptExecutionResult execute(ScriptExecutionResult script, long times);
+    ScriptExecutionResultDto execute(ScriptExecutionResultDto script, long times);
 }

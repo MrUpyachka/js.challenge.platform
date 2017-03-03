@@ -24,12 +24,12 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
-    /** @returns value of {@link #users}. */
+    /** @return value of {@link #users}. */
     public Set<User> getUsers() {
         return users;
     }
 
-    /** @param {@link #users} value for {@link #users}. */
+    /** @param users value for {@link #users}. */
     public void setUsers(Set<User> users) {
         this.users = users;
     }

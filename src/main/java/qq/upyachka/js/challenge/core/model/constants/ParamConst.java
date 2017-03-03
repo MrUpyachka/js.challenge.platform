@@ -7,8 +7,11 @@ package qq.upyachka.js.challenge.core.model.constants;
  */
 public final class ParamConst {
 
-    /** Key to get results of previous execution. */
+    /** Key of previous execution result in model or its ID in session context. */
     public static final String PREVIOUS_RESULT = "previousResult";
+
+    /** Key of execution details in model. */
+    public static final String EXECUTION_DETAILS = "executionDetails";
 
     /** Key to store last error in model. */
     public static final String ERROR = "error";

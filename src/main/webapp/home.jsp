@@ -27,7 +27,10 @@
             <c:if test="${topList != null && topList.size() > 0}">
                 <div class="last-execution">
                     <c:if test="${previousResult != null}">
-                        <t:execution executionData="${previousResult}"/>
+                        <div class="well well-sm action-header">
+                            <h5>Your last execution:</h4>
+                            <t:execution executionData="${previousResult}"/>
+                        </div>
                     </c:if>
                 </div>
                 <div class="well well-sm top-list-box">

@@ -16,4 +16,7 @@ public final class ViewConst {
     /** Name of view for login. */
     public static final String LOGIN_VIEW = "login";
 
+    /** Name of view for execution result details displaying. */
+    public static final String EXECUTION_DETAILS_VIEW = "execution";
+
 }

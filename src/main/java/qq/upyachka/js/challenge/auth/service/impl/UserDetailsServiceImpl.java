@@ -9,8 +9,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import qq.upyachka.js.challenge.auth.parser.UserDetailsParser;
-import qq.upyachka.js.challenge.core.repository.UserRepository;
 import qq.upyachka.js.challenge.core.model.User;
+import qq.upyachka.js.challenge.core.repository.UserRepository;
 
 /**
  * Implementation of {@link UserDetailsService}.

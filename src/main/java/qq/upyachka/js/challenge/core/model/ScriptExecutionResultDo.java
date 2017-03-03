@@ -19,18 +19,15 @@ public class ScriptExecutionResultDo implements Serializable, ScriptExecutionRes
     private Long id;
 
     /** Script body */
-    @Column(name = "body", length = Integer.MAX_VALUE)
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private StringLob body = new StringLob();
 
     /** Output of script execution. */
-    @Column(name = "output")
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private StringLob output = new StringLob();
 
     /** Value returned by script. */
-    @Column(name = "result")
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private StringLob result = new StringLob();
 
     /** Average execution time in nanoseconds. */

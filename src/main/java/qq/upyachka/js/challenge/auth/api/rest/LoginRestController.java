@@ -37,7 +37,7 @@ public class LoginRestController {
     public ModelAndView login(Model model) {
         model.addAttribute(USER_KEY, new User());
         LOG.debug("Show login view.");
-        return new ModelAndView(LOGIN_VIEW);
+        return new ModelAndView(LOGIN_VIEW, model.asMap());
     }
 
     /**
@@ -49,8 +49,8 @@ public class LoginRestController {
      * @return login view.
      */
     @PostMapping
-    public String login(@ModelAttribute(USER_KEY) User user,
-                        Model model, String error, String logout) {
+    public ModelAndView login(@ModelAttribute(USER_KEY) User user,
+                              Model model, String error, String logout) {
         LOG.debug("Try login as {}.", user.getUsername());
         if (error != null) {
             LOG.debug("Add error to attributes: {}", error);
@@ -60,6 +60,6 @@ public class LoginRestController {
             LOG.debug("Add message to attributes: {}", logout);
             model.addAttribute(MESSAGE, logout);
         }
-        return LOGIN_VIEW;
+        return new ModelAndView(LOGIN_VIEW, model.asMap());
     }
 }

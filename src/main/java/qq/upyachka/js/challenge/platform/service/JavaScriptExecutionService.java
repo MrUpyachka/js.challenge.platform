@@ -1,7 +1,6 @@
 package qq.upyachka.js.challenge.platform.service;
 
 import qq.upyachka.js.challenge.core.error.PlatformException;
-import qq.upyachka.js.challenge.core.model.ScriptExecutionResultDo;
 import qq.upyachka.js.challenge.platform.script.ScriptExecutionResultDto;
 
 /**
@@ -24,5 +23,5 @@ public interface JavaScriptExecutionService {
      * @param id identifier of execution.
      * @return actual execution results.
      */
-    ScriptExecutionResultDo getExecution(long id);
+    ScriptExecutionResultDto getExecution(long id);
 }

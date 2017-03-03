@@ -6,10 +6,10 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import qq.upyachka.js.challenge.core.repository.RoleRepository;
-import qq.upyachka.js.challenge.core.repository.UserRepository;
 import qq.upyachka.js.challenge.auth.service.RegistrationService;
 import qq.upyachka.js.challenge.core.model.User;
+import qq.upyachka.js.challenge.core.repository.RoleRepository;
+import qq.upyachka.js.challenge.core.repository.UserRepository;
 
 /**
  * Implementation of {@link RegistrationService}.

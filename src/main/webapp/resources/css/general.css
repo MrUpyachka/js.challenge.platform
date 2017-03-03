@@ -17,40 +17,17 @@ body {
     margin-bottom: 0;
 }
 .user-form {
-    display: -ms-flexbox;
-    display: -webkit-flex;
     display: flex;
-
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
     flex-direction: row;
-
-    -webkit-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-
-    -webkit-justify-content: flex-start;
-    -ms-flex-pack: start;
     justify-content: flex-start;
-
-    -webkit-align-content: space-between;
-    -ms-flex-line-pack: justify;
     align-content: space-between;
-
-    -webkit-align-items: center;
-    -ms-flex-align: center;
     align-items: center;
 
 }
 .user-form > * {
-    -webkit-order: 0;
-    -ms-flex-order: 0;
     order: 0;
-    -webkit-flex: 1 1 auto;
-    -ms-flex: 1 1 auto;
     flex: 1 1 auto;
-    -webkit-align-self: auto;
-    -ms-flex-item-align: auto;
     align-self: auto;
 }
 
@@ -79,33 +56,31 @@ body {
 .time-result-box {
     padding: .2em;
 }
-.time-result-box div {
-    display: -ms-flexbox;
-    display: -webkit-flex;
+.execution-item, .execution-details-box > div {
     display: flex;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
     flex-direction: row;
-    -webkit-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -webkit-align-content: space-between;
-    -ms-flex-line-pack: justify;
+    justify-content: flex-start;
     align-content: space-between;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
     align-items: center;
 }
-.time-result-box div > * {
-    -webkit-flex: 0 1 33%;
-    -ms-flex: 0 1 33%;
+
+.execution-details-box > div.well > * {
+    flex: 0 1 100%;
+}
+.execution-item > * {
     flex: 0 1 33%;
-    -webkit-align-self: auto;
-    -ms-flex-item-align: auto;
     align-self: auto;
 
     text-align: center;
+}
+.execution-details-box > div > * {
+    flex: 0 1 50%;
+    text-align: left;
+}
+code {
+    white-space: pre;
+    padding: 0;
+    color: darkcyan;
+    background-color: transparent;
 }

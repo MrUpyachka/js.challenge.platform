@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/js.challenge.platform.iml" filepath="$PROJECT_DIR$/.idea/modules/js.challenge.platform.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/js.challenge.platform_main.iml" filepath="$PROJECT_DIR$/.idea/modules/js.challenge.platform_main.iml" group="js.challenge.platform" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/js.challenge.platform_test.iml" filepath="$PROJECT_DIR$/.idea/modules/js.challenge.platform_test.iml" group="js.challenge.platform" />
+    </modules>
+  </component>
+</project>

@@ -9,12 +9,6 @@ import java.util.Date;
  */
 public interface ScriptExecutionResult {
 
-    /** @return value of {@link ScriptExecutionResultDo#body}. */
-    StringLob getBody();
-
-    /** @param body value for {@link ScriptExecutionResultDo#body}. */
-    void setBody(StringLob body);
-
     /** @return value of {@link ScriptExecutionResultDo#startTime}. */
     Date getStartTime();
 
@@ -26,18 +20,6 @@ public interface ScriptExecutionResult {
 
     /** @param minExecutionTimeInNanoseconds value for {@link ScriptExecutionResultDo#minExecutionTimeInNanoseconds}. */
     void setMinExecutionTimeInNanoseconds(Long minExecutionTimeInNanoseconds);
-
-    /** @return value of {@link ScriptExecutionResultDo#output}. */
-    StringLob getOutput();
-
-    /** @param output value for {@link ScriptExecutionResultDo#output}. */
-    void setOutput(StringLob output);
-
-    /** @return value of {@link ScriptExecutionResultDo#result}. */
-    StringLob getResult();
-
-    /** @param result value for {@link ScriptExecutionResultDo#result}. */
-    void setResult(StringLob result);
 
     /** @return value of {@link ScriptExecutionResultDo#executionTimeInNanoseconds}. */
     Long getExecutionTimeInNanoseconds();

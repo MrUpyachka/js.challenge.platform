@@ -37,12 +37,6 @@ public class PlatformSecurityConfiguration extends WebSecurityConfigurerAdapter 
                 .and().logout().permitAll();
     }
 
-    /** Encoder to be used for password. */
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     /**
      * Configures {@link AuthenticationManager} with custom implementations.
      * @param auth builder of {@link AuthenticationManager}.
@@ -51,5 +45,11 @@ public class PlatformSecurityConfiguration extends WebSecurityConfigurerAdapter 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(service).passwordEncoder(passwordEncoder());
+    }
+
+    /** Encoder to be used for password. */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
