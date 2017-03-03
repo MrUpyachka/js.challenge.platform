@@ -861,7 +861,7 @@
 
 		/**
 		 * Serializes the item into an array of string.
-		 * @returns {String[]}
+		 * @return {String[]}
 		 */
 		toArray: function () {
 			var order = [],
@@ -919,7 +919,7 @@
 		 * For each element in the set, get the first element that matches the selector by testing the element itself and traversing up through its ancestors in the DOM tree.
 		 * @param   {HTMLElement}  el
 		 * @param   {String}       [selector]  default: `options.draggable`
-		 * @returns {HTMLElement|null}
+		 * @return {HTMLElement|null}
 		 */
 		closest: function (el, selector) {
 			return _closest(el, selector || this.options.draggable, this.el);
@@ -930,7 +930,7 @@
 		 * Set/get option
 		 * @param   {string} name
 		 * @param   {*}      [value]
-		 * @returns {*}
+		 * @return {*}
 		 */
 		option: function (name, value) {
 			var options = this.options;
@@ -1138,7 +1138,7 @@
 	}
 
 
-	/** @returns {HTMLElement|false} */
+	/** @return {HTMLElement|false} */
 	function _ghostIsLast(el, evt) {
 		var lastEl = el.lastElementChild,
 				rect = lastEl.getBoundingClientRect();
@@ -1150,7 +1150,7 @@
 	/**
 	 * Generate id
 	 * @param   {HTMLElement} el
-	 * @returns {String}
+	 * @return {String}
 	 * @private
 	 */
 	function _generateId(el) {
@@ -1296,7 +1296,7 @@
 	 * jQuery plugin for KvSortable
 	 * @param   {Object|String} options
 	 * @param   {..*}           [args]
-	 * @returns {jQuery|*}
+	 * @return {jQuery|*}
 	 */
 	$.fn.kvsortable = function (options) {
 		var retVal,

@@ -20,15 +20,18 @@ public class ScriptExecutionResultDo implements Serializable, ScriptExecutionRes
 
     /** Script body */
     @Column(name = "body", length = Integer.MAX_VALUE)
-    private String body;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private StringLob body = new StringLob();
 
     /** Output of script execution. */
     @Column(name = "output")
-    private String output;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private StringLob output = new StringLob();
 
     /** Value returned by script. */
     @Column(name = "result")
-    private String result;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private StringLob result = new StringLob();
 
     /** Average execution time in nanoseconds. */
     private Long executionTimeInNanoseconds;
@@ -47,92 +50,92 @@ public class ScriptExecutionResultDo implements Serializable, ScriptExecutionRes
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
-    /** @returns value of {@link #owner}. */
+    /** @return value of {@link #owner}. */
     public User getOwner() {
         return owner;
     }
 
-    /** @param {@link #owner} value for {@link #owner}. */
+    /** @param owner value for {@link #owner}. */
     public void setOwner(User owner) {
         this.owner = owner;
     }
 
-    /** @returns value of {@link #id}. */
+    /** @return value of {@link #id}. */
     public Long getId() {
         return id;
     }
 
-    /** @param {@link #id} value for {@link #id}. */
+    /** @param id value for {@link #id}. */
     public void setId(Long id) {
         this.id = id;
     }
 
-    /** @returns value of {@link #body}. */
-    public String getBody() {
+    /** @return value of {@link #body}. */
+    public StringLob getBody() {
         return body;
     }
 
-    /** @param {@link #body} value for {@link #body}. */
-    public void setBody(String body) {
+    /** @param body value for {@link #body}. */
+    public void setBody(StringLob body) {
         this.body = body;
     }
 
-    /** @returns value of {@link #startTime}. */
+    /** @return value of {@link #startTime}. */
     public Date getStartTime() {
         return startTime;
     }
 
-    /** @param {@link #startTime} value for {@link #startTime}. */
+    /** @param startTime value for {@link #startTime}. */
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
-    /** @returns value of {@link #minExecutionTimeInNanoseconds}. */
+    /** @return value of {@link #minExecutionTimeInNanoseconds}. */
     public Long getMinExecutionTimeInNanoseconds() {
         return minExecutionTimeInNanoseconds;
     }
 
-    /** @param {@link #minExecutionTimeInNanoseconds} value for {@link #minExecutionTimeInNanoseconds}. */
+    /** @param minExecutionTimeInNanoseconds value for {@link #minExecutionTimeInNanoseconds}. */
     public void setMinExecutionTimeInNanoseconds(Long minExecutionTimeInNanoseconds) {
         this.minExecutionTimeInNanoseconds = minExecutionTimeInNanoseconds;
     }
 
-    /** @returns value of {@link #output}. */
-    public String getOutput() {
+    /** @return value of {@link #output}. */
+    public StringLob getOutput() {
         return output;
     }
 
-    /** @param {@link #output} value for {@link #output}. */
-    public void setOutput(String output) {
+    /** @param output value for {@link #output}. */
+    public void setOutput(StringLob output) {
         this.output = output;
     }
 
-    /** @returns value of {@link #result}. */
-    public String getResult() {
+    /** @return value of {@link #result}. */
+    public StringLob getResult() {
         return result;
     }
 
-    /** @param {@link #result} value for {@link #result}. */
-    public void setResult(String result) {
+    /** @param result value for {@link #result}. */
+    public void setResult(StringLob result) {
         this.result = result;
     }
 
-    /** @returns value of {@link #executionTimeInNanoseconds}. */
+    /** @return value of {@link #executionTimeInNanoseconds}. */
     public Long getExecutionTimeInNanoseconds() {
         return executionTimeInNanoseconds;
     }
 
-    /** @param {@link #executionTimeInNanoseconds} value for {@link #executionTimeInNanoseconds}. */
+    /** @param executionTimeInNanoseconds value for {@link #executionTimeInNanoseconds}. */
     public void setExecutionTimeInNanoseconds(Long executionTimeInNanoseconds) {
         this.executionTimeInNanoseconds = executionTimeInNanoseconds;
     }
 
-    /** @returns value of {@link #errorCause}. */
+    /** @return value of {@link #errorCause}. */
     public Throwable getErrorCause() {
         return errorCause;
     }
 
-    /** @param {@link #errorCause} value for {@link #errorCause}. */
+    /** @param errorCause value for {@link #errorCause}. */
     public void setErrorCause(Throwable errorCause) {
         this.errorCause = errorCause;
     }

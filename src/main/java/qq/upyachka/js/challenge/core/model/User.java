@@ -35,52 +35,52 @@ public class User {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<ScriptExecutionResultDo> executions = Sets.newHashSet();
 
-    /** @returns value of {@link #executions}. */
+    /** @return value of {@link #executions}. */
     public Set<ScriptExecutionResultDo> getExecutions() {
         return executions;
     }
 
-    /** @param {@link #executions} value for {@link #executions}. */
+    /** @param executions value for {@link #executions}. */
     public void setExecutions(Set<ScriptExecutionResultDo> executions) {
         this.executions = executions;
     }
 
-    /** @returns value of {@link #id}. */
+    /** @return value of {@link #id}. */
     public Long getId() {
         return id;
     }
 
-    /** @param {@link #id} value for {@link #id}. */
+    /** @param id value for {@link #id}. */
     public void setId(Long id) {
         this.id = id;
     }
 
-    /** @returns value of {@link #username}. */
+    /** @return value of {@link #username}. */
     public String getUsername() {
         return username;
     }
 
-    /** @param {@link #username} value for {@link #username}. */
+    /** @param username value for {@link #username}. */
     public void setUsername(String username) {
         this.username = username;
     }
 
-    /** @returns value of {@link #password}. */
+    /** @return value of {@link #password}. */
     public String getPassword() {
         return password;
     }
 
-    /** @param {@link #password} value for {@link #password}. */
+    /** @param password value for {@link #password}. */
     public void setPassword(String password) {
         this.password = password;
     }
 
-    /** @returns value of {@link #roles}. */
+    /** @return value of {@link #roles}. */
     public Set<Role> getRoles() {
         return roles;
     }
 
-    /** @param {@link #roles} value for {@link #roles}. */
+    /** @param roles value for {@link #roles}. */
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }

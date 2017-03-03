@@ -5,13 +5,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import qq.upyachka.js.challenge.core.api.rest.AbstractViewNavigationController;
 import qq.upyachka.js.challenge.core.error.PlatformException;
 import qq.upyachka.js.challenge.platform.script.ScriptExecutionResultDto;
 import qq.upyachka.js.challenge.platform.service.JavaScriptExecutionService;
 import qq.upyachka.js.challenge.platform.service.TopListService;
 import qq.upyachka.js.challenge.platform.utils.FileUtils;
 
-import static qq.upyachka.js.challenge.core.constants.UrlConst.REDIRECT_URL_PREFIX;
 import static qq.upyachka.js.challenge.core.model.constants.ParamConst.PREVIOUS_RESULT;
 import static qq.upyachka.js.challenge.core.model.constants.ParamConst.TOP_LIST;
 import static qq.upyachka.js.challenge.core.model.constants.ViewConst.HOME_VIEW;
@@ -23,7 +23,7 @@ import static qq.upyachka.js.challenge.core.model.constants.ViewConst.HOME_VIEW;
  */
 @RestController
 @RequestMapping(produces = "application/json; charset=UTF-8")
-public class PlatformRestApiController {
+public class PlatformRestApiController extends AbstractViewNavigationController {
 
     /** Service which responds for scripts execution. */
     @Autowired
@@ -68,6 +68,6 @@ public class PlatformRestApiController {
         final String script = FileUtils.readFile(file);
         final ScriptExecutionResultDto result = service.execute(script);
         model.addAttribute(PREVIOUS_RESULT, result);
-        return new ModelAndView(REDIRECT_URL_PREFIX, model.asMap());
+        return redirectToRoot(model);
     }
 }

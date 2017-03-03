@@ -37,92 +37,92 @@ public class ScriptExecutionResultDto implements ScriptExecutionResult {
     /** Time of execution start. */
     private Date startTime;
 
-    /** @returns value of {@link #username}. */
+    /** @return value of {@link #username}. */
     public String getUsername() {
         return username;
     }
 
-    /** @param {@link #username} value for {@link #username}. */
+    /** @param username value for {@link #username}. */
     public void setUsername(String username) {
         this.username = username;
     }
 
-    /** @returns value of {@link #id}. */
+    /** @return value of {@link #id}. */
     public Long getId() {
         return id;
     }
 
-    /** @param {@link #id} value for {@link #id}. */
+    /** @param id value for {@link #id}. */
     public void setId(Long id) {
         this.id = id;
     }
 
-    /** @returns value of {@link #body}. */
+    /** @return value of {@link #body}. */
     public String getBody() {
         return body;
     }
 
-    /** @param {@link #body} value for {@link #body}. */
+    /** @param body value for {@link #body}. */
     public void setBody(String body) {
         this.body = body;
     }
 
-    /** @returns value of {@link #startTime}. */
+    /** @return value of {@link #startTime}. */
     public Date getStartTime() {
         return startTime;
     }
 
-    /** @param {@link #startTime} value for {@link #startTime}. */
+    /** @param startTime value for {@link #startTime}. */
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
-    /** @returns value of {@link #minExecutionTimeInNanoseconds}. */
+    /** @return value of {@link #minExecutionTimeInNanoseconds}. */
     public Long getMinExecutionTimeInNanoseconds() {
         return minExecutionTimeInNanoseconds;
     }
 
-    /** @param {@link #minExecutionTimeInNanoseconds} value for {@link #minExecutionTimeInNanoseconds}. */
+    /** @param minExecutionTimeInNanoseconds value for {@link #minExecutionTimeInNanoseconds}. */
     public void setMinExecutionTimeInNanoseconds(Long minExecutionTimeInNanoseconds) {
         this.minExecutionTimeInNanoseconds = minExecutionTimeInNanoseconds;
     }
 
-    /** @returns value of {@link #output}. */
+    /** @return value of {@link #output}. */
     public String getOutput() {
         return output;
     }
 
-    /** @param {@link #output} value for {@link #output}. */
+    /** @param output value for {@link #output}. */
     public void setOutput(String output) {
         this.output = output;
     }
 
-    /** @returns value of {@link #result}. */
+    /** @return value of {@link #result}. */
     public String getResult() {
         return result;
     }
 
-    /** @param {@link #result} value for {@link #result}. */
+    /** @param result value for {@link #result}. */
     public void setResult(String result) {
         this.result = result;
     }
 
-    /** @returns value of {@link #executionTimeInNanoseconds}. */
+    /** @return value of {@link #executionTimeInNanoseconds}. */
     public Long getExecutionTimeInNanoseconds() {
         return executionTimeInNanoseconds;
     }
 
-    /** @param {@link #executionTimeInNanoseconds} value for {@link #executionTimeInNanoseconds}. */
+    /** @param executionTimeInNanoseconds value for {@link #executionTimeInNanoseconds}. */
     public void setExecutionTimeInNanoseconds(Long executionTimeInNanoseconds) {
         this.executionTimeInNanoseconds = executionTimeInNanoseconds;
     }
 
-    /** @returns value of {@link #errorCause}. */
+    /** @return value of {@link #errorCause}. */
     public Throwable getErrorCause() {
         return errorCause;
     }
 
-    /** @param {@link #errorCause} value for {@link #errorCause}. */
+    /** @param errorCause value for {@link #errorCause}. */
     public void setErrorCause(Throwable errorCause) {
         this.errorCause = errorCause;
     }

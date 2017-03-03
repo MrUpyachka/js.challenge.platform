@@ -100,9 +100,9 @@ body {
     align-items: center;
 }
 .time-result-box div > * {
-    -webkit-flex: 0 1 auto;
-    -ms-flex: 0 1 auto;
-    flex: 0 1 50%;
+    -webkit-flex: 0 1 33%;
+    -ms-flex: 0 1 33%;
+    flex: 0 1 33%;
     -webkit-align-self: auto;
     -ms-flex-item-align: auto;
     align-self: auto;

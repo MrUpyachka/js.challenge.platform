@@ -49,12 +49,10 @@ public class ScriptExecutionJob extends QuartzJobBean {
         parseContent(result, execution);
         if (result.getErrorCause() == null) {
             LOG.debug("Script successfully executed.");
-            executions.save(execution);
-            LOG.debug("Script execution results saved to DB.");
-            // return result;
         } else {
-            LOG.debug("Script {} of {} execution failed and not saved to DB", execution.getId(),
-                      execution.getOwner().getUsername());
+            LOG.debug("Script {} of {} execution failed", execution.getId(), execution.getOwner().getUsername());
         }
+        executions.save(execution);
+        LOG.debug("Script execution results saved to DB.");
     }
 }

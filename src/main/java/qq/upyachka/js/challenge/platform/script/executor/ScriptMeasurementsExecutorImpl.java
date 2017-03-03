@@ -63,7 +63,7 @@ public class ScriptMeasurementsExecutorImpl implements ScriptMeasurementsExecuto
             LOG.error("Failed to evaluate script", e);
             script.setErrorCause(e);
         }
-        //script.setOutput((output != null) ? output.toString() : null);
+        script.setOutput((output != null) ? output.toString() : null);
         //script.setResult((String)scriptResult);
         script.setExecutionTimeInNanoseconds(totalTime / times);
         script.setMinExecutionTimeInNanoseconds(minTime);

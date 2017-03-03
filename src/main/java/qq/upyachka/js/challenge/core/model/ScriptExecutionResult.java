@@ -9,47 +9,46 @@ import java.util.Date;
  */
 public interface ScriptExecutionResult {
 
+    /** @return value of {@link ScriptExecutionResultDo#body}. */
+    StringLob getBody();
 
-    /** @returns value of {@link ScriptExecutionResultDo#body}. */
-    String getBody();
+    /** @param body value for {@link ScriptExecutionResultDo#body}. */
+    void setBody(StringLob body);
 
-    /** @param {@link #body} value for {@link ScriptExecutionResultDo#body}. */
-    void setBody(String body);
-
-    /** @returns value of {@link ScriptExecutionResultDo#startTime}. */
+    /** @return value of {@link ScriptExecutionResultDo#startTime}. */
     Date getStartTime();
 
-    /** @param {@link #startTime} value for {@link ScriptExecutionResultDo#startTime}. */
+    /** @param startTime value for {@link ScriptExecutionResultDo#startTime}. */
     void setStartTime(Date startTime);
 
-    /** @returns value of {@link ScriptExecutionResultDo#minExecutionTimeInNanoseconds}. */
+    /** @return value of {@link ScriptExecutionResultDo#minExecutionTimeInNanoseconds}. */
     Long getMinExecutionTimeInNanoseconds();
 
-    /** @param {@link #minExecutionTimeInNanoseconds} value for {@link ScriptExecutionResultDo#minExecutionTimeInNanoseconds}. */
+    /** @param minExecutionTimeInNanoseconds value for {@link ScriptExecutionResultDo#minExecutionTimeInNanoseconds}. */
     void setMinExecutionTimeInNanoseconds(Long minExecutionTimeInNanoseconds);
 
-    /** @returns value of {@link ScriptExecutionResultDo#output}. */
-    String getOutput();
+    /** @return value of {@link ScriptExecutionResultDo#output}. */
+    StringLob getOutput();
 
-    /** @param {@link #output} value for {@link ScriptExecutionResultDo#output}. */
-    void setOutput(String output);
+    /** @param output value for {@link ScriptExecutionResultDo#output}. */
+    void setOutput(StringLob output);
 
-    /** @returns value of {@link ScriptExecutionResultDo#result}. */
-    String getResult();
+    /** @return value of {@link ScriptExecutionResultDo#result}. */
+    StringLob getResult();
 
-    /** @param {@link #result} value for {@link ScriptExecutionResultDo#result}. */
-    void setResult(String result);
+    /** @param result value for {@link ScriptExecutionResultDo#result}. */
+    void setResult(StringLob result);
 
-    /** @returns value of {@link ScriptExecutionResultDo#executionTimeInNanoseconds}. */
+    /** @return value of {@link ScriptExecutionResultDo#executionTimeInNanoseconds}. */
     Long getExecutionTimeInNanoseconds();
 
-    /** @param {@link #executionTimeInNanoseconds} value for {@link ScriptExecutionResultDo#executionTimeInNanoseconds}. */
+    /** @param executionTimeInNanoseconds value for {@link ScriptExecutionResultDo#executionTimeInNanoseconds}. */
     void setExecutionTimeInNanoseconds(Long executionTimeInNanoseconds);
 
-    /** @returns value of {@link ScriptExecutionResultDo#errorCause}. */
+    /** @return value of {@link ScriptExecutionResultDo#errorCause}. */
     Throwable getErrorCause();
 
-    /** @param {@link #errorCause} value for {@link ScriptExecutionResultDo#errorCause}. */
+    /** @param errorCause value for {@link ScriptExecutionResultDo#errorCause}. */
     void setErrorCause(Throwable errorCause);
 
 }

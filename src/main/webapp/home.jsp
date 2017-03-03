@@ -24,20 +24,16 @@
             <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
         </form>
         <div class="results-box">
-            <c:if test="${previousResult != null && !previousResult.isSucceeded()}">
-                <span class="label label-danger">Failed with error</span>
-                <span class="label label-info">${previousResult.getErrorCause().toString()}</span>
-            </c:if>
-
             <c:if test="${topList != null && topList.size() > 0}">
-                <div class="well well-sm time-result-box">
+                <div class="last-execution">
+                    <c:if test="${previousResult != null}">
+                        <t:execution executionData="${previousResult}"/>
+                    </c:if>
+                </div>
+                <div class="well well-sm top-list-box">
                     <c:forEach var="item" items="${topList}">
-                    <div>
-                        <h5><c:out value="${item.getUsername()}" /> <c:out value="${item.getStartTime()}" /></h4>
-                        <span class="label label-default"><c:out value="${item.getMinExecutionTimeInNanoseconds()}" /></span>
-                    </div>
+                        <t:execution executionData="${item}"/>
                     </c:forEach>
-
                 </div>
             </c:if>
         </div>
