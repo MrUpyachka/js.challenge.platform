@@ -17,11 +17,11 @@
         </script>
     </jsp:attribute>
     <jsp:body>
-        <form method="POST" enctype="multipart/form-data" class="script-form">
-            <div class="well well-sm action-header">Select script:</div>
+        <form method="POST" enctype="multipart/form-data" class="script-form panel-default">
+            <h4 class="action-header">Select script:</h4>
             <input id="script-file-input" name="file" type="file" class="file" showUpload="false" showRemove="false"/>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
+            <button class="btn btn-md btn-primary btn-block" type="submit">Send</button>
         </form>
         <div class="results-box">
             <c:if test="${topList != null && topList.size() > 0}">

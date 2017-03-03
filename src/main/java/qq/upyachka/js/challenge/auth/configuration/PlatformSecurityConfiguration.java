@@ -40,7 +40,7 @@ public class PlatformSecurityConfiguration extends WebSecurityConfigurerAdapter 
     /**
      * Configures {@link AuthenticationManager} with custom implementations.
      * @param auth builder of {@link AuthenticationManager}.
-     * @throws Exception
+     * @throws Exception from {@link AuthenticationManagerBuilder}.
      */
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {

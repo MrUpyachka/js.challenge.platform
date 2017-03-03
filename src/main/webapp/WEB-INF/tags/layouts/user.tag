@@ -16,22 +16,24 @@
     <jsp:attribute name="bottomBar"><jsp:invoke fragment="alternativeAction"/></jsp:attribute>
     <jsp:body>
         <form:form method="POST" modelAttribute="USER" class="user-form ${actionName}">
-            <p class="action-header">${actionHeader}</p>
+            <h4 class="action-header">${actionHeader}</h4>
             <spring:bind path="username">
-                <div class="form-group">
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                     <form:input id="username-input" type="text" path="username" class="form-control" placeholder="Username" autofocus="true"
                      cssErrorClass="has-error"/>
                     <form:errors path="username"></form:errors>
                 </div>
             </spring:bind>
             <spring:bind path="password">
-                <div class="form-group">
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                     <form:input id="password-input" type="password" path="password" class="form-control" placeholder="Password"
                      cssErrorClass="has-error"/>
                     <form:errors path="password"></form:errors>
                 </div>
             </spring:bind>
-            <button class="btn btn-lg btn-primary btn-block ${actionName}" type="submit">${actionButton}</button>
+            <button class="btn btn-md btn-primary btn-block ${actionName}" type="submit">${actionButton}</button>
         </form:form>
     </jsp:body>
 </t:general>

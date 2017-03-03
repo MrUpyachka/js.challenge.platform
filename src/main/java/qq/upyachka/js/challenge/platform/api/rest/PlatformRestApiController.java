@@ -80,12 +80,13 @@ public class PlatformRestApiController extends AbstractViewNavigationController 
 
     /**
      * End-point to run user script.
-     * @param file
+     * @param file selected script file.
      * @param model context model.
      * @param session session of request.
      * @return view with top of executions and form for new execution.
-     * @throws PlatformException
+     * @throws PlatformException in case of execution errors
      */
+    // TODO exception mapper for errors handling
     @PostMapping
     public ModelAndView runScript(@RequestParam MultipartFile file, Model model, HttpSession session)
     throws PlatformException {
