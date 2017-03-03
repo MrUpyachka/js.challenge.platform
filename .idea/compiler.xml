@@ -4,6 +4,8 @@
     <bytecodeTargetLevel>
       <module name="js.challenge.platform_main" target="1.8" />
       <module name="js.challenge.platform_test" target="1.8" />
+      <module name="js.contest.platform_main" target="1.8" />
+      <module name="js.contest.platform_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -9,7 +9,7 @@
 <%@attribute name="miscHead" fragment="true" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-<c:set var="pageTitle" value="JS challenge"/>
+<c:set var="pageTitle" value="JS contest"/>
 
 <html>
     <head>

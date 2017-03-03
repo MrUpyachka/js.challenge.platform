@@ -11,7 +11,7 @@
 
 <t:general>
     <jsp:attribute name="topBar">
-        <h2>Welcome to JS challenge!</h2>
+        <h2>Welcome to JS contest!</h2>
     </jsp:attribute>
     <jsp:attribute name="bottomBar"><jsp:invoke fragment="alternativeAction"/></jsp:attribute>
     <jsp:body>

@@ -32,7 +32,7 @@ body {
 .time-result-box {
     padding: .2em;
 }
-.execution-item, .execution-details-box > div {
+.execution-item, .execution-details-box .panel-body .primary {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -41,8 +41,11 @@ body {
     align-items: center;
 }
 
-.execution-details-box > div.well > * {
-    flex: 0 1 100%;
+.execution-details-box .panel-body .primary > * {
+    flex: 0 1 50%;
+}
+.execution-details-box .btn {
+    width: 100%;
 }
 .execution-item > * {
     flex: 0 1 33%;

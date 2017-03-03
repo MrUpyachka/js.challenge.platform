@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<%@ attribute name="executionData" required="true" type="qq.upyachka.js.challenge.platform.script.ScriptExecutionResultDto" %>
+<%@ attribute name="executionData" required="true" type="qq.upyachka.js.contest.platform.script.ScriptExecutionResultDto" %>
 
 <div class="execution-item">
     <h5>

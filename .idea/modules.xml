@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/js.challenge.platform.iml" filepath="$PROJECT_DIR$/.idea/modules/js.challenge.platform.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/js.challenge.platform_main.iml" filepath="$PROJECT_DIR$/.idea/modules/js.challenge.platform_main.iml" group="js.challenge.platform" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/js.challenge.platform_test.iml" filepath="$PROJECT_DIR$/.idea/modules/js.challenge.platform_test.iml" group="js.challenge.platform" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/js.contest.platform.iml" filepath="$PROJECT_DIR$/.idea/modules/js.contest.platform.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/js.contest.platform_main.iml" filepath="$PROJECT_DIR$/.idea/modules/js.contest.platform_main.iml" group="js.contest.platform" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/js.contest.platform_test.iml" filepath="$PROJECT_DIR$/.idea/modules/js.contest.platform_test.iml" group="js.contest.platform" />
     </modules>
   </component>
 </project>
