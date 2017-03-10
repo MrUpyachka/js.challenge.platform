@@ -40,33 +40,27 @@ dependencies {
             'org.springframework:spring-context-support',
             "org.springframework:spring-webmvc:$springWebMvcVersion"
 
-//    compile 'org.apache.tomcat:tomcat-juli:+'
-
     compile "com.google.guava:guava:$guavaVersion"
 
     compile "org.apache.commons:commons-io:$apacheCommonsVersion"
 
     compile "org.mozilla:rhino:$rhinoVersion",
-            "cat.inspiracio:rhino-js-engine:$rhinoVersion"/*,
-            "org.python:jython:2.7.1b2"*/
+            "cat.inspiracio:rhino-js-engine:$rhinoVersion"
 
 
     compile "org.apache.commons:commons-lang3:$apacheCommonsLangVersion"
 
     compile "org.postgresql:postgresql:+"
 
-//    runtime 'org.springframework.boot:spring-boot-starter-tomcat'
-/*
-    runtime "org.hsqldb:hsqldb:+"
-*/
+    // runtime "org.hsqldb:hsqldb:+"
+
     compile "org.hibernate:hibernate-core:+",
             "org.quartz-scheduler:quartz:+"
 
     runtime "javax.servlet:jstl:+",
             "javax.servlet:servlet-api:+",
             "taglibs:standard:+",
-            "javax.servlet.jsp:jsp-api:+"/*,
-            "org.python:jython-standalone:+"*/
+            "javax.servlet.jsp:jsp-api:+"
 
     compile "org.apache.logging.log4j:log4j-api:$log4jVersion",
             "org.apache.logging.log4j:log4j-core:$log4jVersion"
@@ -77,5 +71,5 @@ war.archiveName = 'js.war'
 gretty {
     httpPort = 8081
     contextPath = '/'
-    servletContainer = 'tomcat8' //tomcat7 or tomcat8
+    servletContainer = 'tomcat8' // tomcat7 or tomcat8
 }

@@ -23,16 +23,9 @@ import static qq.upyachka.js.contest.platform.configuration.constants.Configurat
 @EnableWebMvc
 public class RootConfiguration extends WebMvcConfigurerAdapter {
 
-    /**
-     * Script interpreter to execute Python scripts from client.
-     * @return engine.
-     * @see <a href="http://bugs.jython.org/issue2355">ImportError:
-     * Cannot import site module and its dependencies: No module named site</a>.
-     */
-/*    @Bean(JYTHON_NAME)
-    public static PythonInterpreter pythonEngine() {
-        return new PythonInterpreter();
-    }*/
+    /** Internal logger. */
+    //private static final Logger LOG = LogManager.getLogger(RootConfiguration.class);
+
     @Bean
     public ViewResolver getViewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
@@ -41,22 +34,6 @@ public class RootConfiguration extends WebMvcConfigurerAdapter {
         return resolver;
     }
 
-    /** Internal logger. */
-    //private static final Logger LOG = LogManager.getLogger(RootConfiguration.class);
-
-/*
-    @Override
-    public void configureViewResolvers(ViewResolverRegistry registry) {
-        registry.jsp();
-    }
-*/
-/*    {
-        Properties properties = new Properties();
-        properties.put("python.import.site","false");
-        System.setProperty("python.import.site","false");
-        PythonInterpreter.initialize(System.getProperties(), properties, new String[0]);
-    }
-    */
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         registry.addResourceHandler(RESOURCES_URL_PATTERN).addResourceLocations(RESOURCES_PATH_URL);
@@ -72,23 +49,4 @@ public class RootConfiguration extends WebMvcConfigurerAdapter {
         return new ScriptEngineManager().getEngineByName(RHINO_NAME);
     }
 
-/*    public static void main(String[] args) {
-
-        // Create an instance of the PythonInterpreter
-        PythonInterpreter interp = new PythonInterpreter();
-
-        // The exec() method executes strings of code
-        interp.exec("import sys");
-        interp.exec("print sys");
-
-        // Set variable values within the PythonInterpreter instance
-        interp.set("a", new PyInteger(42));
-        interp.exec("print a");
-        interp.exec("x = 2+2");
-
-        // Obtain the value of an object from the PythonInterpreter and store it
-        // into a PyObject.
-        PyObject x = interp.get("x");
-        System.out.println("x: " + x);
-    }*/
 }
