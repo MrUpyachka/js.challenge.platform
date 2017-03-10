@@ -47,7 +47,9 @@ dependencies {
     compile "org.apache.commons:commons-io:$apacheCommonsVersion"
 
     compile "org.mozilla:rhino:$rhinoVersion",
-            "cat.inspiracio:rhino-js-engine:$rhinoVersion"
+            "cat.inspiracio:rhino-js-engine:$rhinoVersion"/*,
+            "org.python:jython:2.7.1b2"*/
+
 
     compile "org.apache.commons:commons-lang3:$apacheCommonsLangVersion"
 
@@ -63,7 +65,8 @@ dependencies {
     runtime "javax.servlet:jstl:+",
             "javax.servlet:servlet-api:+",
             "taglibs:standard:+",
-            "javax.servlet.jsp:jsp-api:+"
+            "javax.servlet.jsp:jsp-api:+"/*,
+            "org.python:jython-standalone:+"*/
 
     compile "org.apache.logging.log4j:log4j-api:$log4jVersion",
             "org.apache.logging.log4j:log4j-core:$log4jVersion"

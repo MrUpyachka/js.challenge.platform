@@ -14,22 +14,23 @@ import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import qq.upyachka.js.contest.core.dto.ScriptExecutionResultDto;
+import qq.upyachka.js.contest.core.dto.utils.ScriptExecutionResultCopyUtils;
 import qq.upyachka.js.contest.core.error.PlatformException;
-import qq.upyachka.js.contest.core.model.ScriptExecutionResultDo;
-import qq.upyachka.js.contest.core.model.User;
+import qq.upyachka.js.contest.core.model.script.ScriptExecutionResultDo;
+import qq.upyachka.js.contest.core.model.user.UserDo;
 import qq.upyachka.js.contest.core.repository.ScriptResultRepository;
+import qq.upyachka.js.contest.core.repository.TaskRepository;
 import qq.upyachka.js.contest.core.repository.UserRepository;
-import qq.upyachka.js.contest.platform.script.ScriptExecutionResultDto;
-import qq.upyachka.js.contest.platform.script.ScriptExecutionResultParser;
 import qq.upyachka.js.contest.platform.service.JavaScriptExecutionService;
 
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.Map;
 
+import static qq.upyachka.js.contest.core.dto.utils.StringLobCopyUtils.wrapString;
 import static qq.upyachka.js.contest.platform.api.constants.PlatformConst.ITERATIONS_NUMBER_KEY;
 import static qq.upyachka.js.contest.platform.api.constants.PlatformConst.SCRIPT_KEY;
-import static qq.upyachka.js.contest.platform.script.ScriptExecutionResultParser.wrapString;
 import static qq.upyachka.js.contest.scheduler.SchedulerConst.*;
 
 /**
@@ -64,23 +65,30 @@ public class JavaScriptExecutionServiceImpl implements JavaScriptExecutionServic
     @Autowired
     private UserRepository users;
 
+    /** Access to task data. */
+    @Autowired
+    private TaskRepository tasks;
+
     @Override
-    public ScriptExecutionResultDto execute(String script) throws PlatformException {
+    public ScriptExecutionResultDto execute(String script, Long taskId) throws PlatformException {
         if (Strings.isNullOrEmpty(script)) {
             LOG.debug("Nothing to execute. Prevent processing.");
-            throw new PlatformException("Nothing to execute.");
+            return null;
         }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
         ScriptExecutionResultDo result = new ScriptExecutionResultDo();
-        User user = users.findByUsername(username);
-        result.setOwner(user);
+        UserDo userDo = users.findByUsername(username);
+        result.setOwner(userDo);
         result.setBody(wrapString(script));
         result.setStartTime(new Date());
+        result.setTask(tasks.findOne(taskId));
         ScriptExecutionResultDo saved = executions.save(result);
-        result.setId(saved.getId());
+        final Long id = saved.getId();
+        result.setId(id);
+        LOG.debug("Execution {} mapped with task {}.", id, taskId);
         scheduleScriptExecution(result);
-        return ScriptExecutionResultParser.parse(result);
+        return ScriptExecutionResultCopyUtils.parse(result);
     }
 
     /**
@@ -126,6 +134,6 @@ public class JavaScriptExecutionServiceImpl implements JavaScriptExecutionServic
     @Transactional
     public ScriptExecutionResultDto getExecution(long id) {
         LOG.debug("Try to get executions results for {}", id);
-        return ScriptExecutionResultParser.parse(executions.getOne(id));
+        return ScriptExecutionResultCopyUtils.parse(executions.getOne(id));
     }
 }

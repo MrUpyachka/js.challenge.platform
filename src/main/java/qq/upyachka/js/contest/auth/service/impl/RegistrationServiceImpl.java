@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import qq.upyachka.js.contest.auth.service.RegistrationService;
-import qq.upyachka.js.contest.core.model.User;
+import qq.upyachka.js.contest.core.model.user.UserDo;
 import qq.upyachka.js.contest.core.repository.RoleRepository;
 import qq.upyachka.js.contest.core.repository.UserRepository;
 
@@ -35,12 +35,12 @@ public class RegistrationServiceImpl implements RegistrationService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public void register(User user) {
-        LOG.debug("Try register user {}.", user.getUsername());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Sets.newHashSet());
-        users.save(user);
-        LOG.debug("User {} registered.", user.getUsername());
+    public void register(UserDo userDo) {
+        LOG.debug("Try register userDo {}.", userDo.getUsername());
+        userDo.setPassword(passwordEncoder.encode(userDo.getPassword()));
+        userDo.setRoles(Sets.newHashSet());
+        users.save(userDo);
+        LOG.debug("UserDo {} registered.", userDo.getUsername());
     }
 
     @Override

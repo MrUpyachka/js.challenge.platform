@@ -5,7 +5,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import qq.upyachka.js.contest.platform.script.ScriptExecutionResultDto;
+import qq.upyachka.js.contest.core.dto.ScriptExecutionResultDto;
+import qq.upyachka.js.contest.core.dto.TaskDto;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
@@ -23,31 +24,27 @@ public class ScriptMeasurementsExecutorImpl implements ScriptMeasurementsExecuto
     /** Internal logger. */
     private static final Logger LOG = LogManager.getLogger(ScriptMeasurementsExecutorImpl.class);
 
-    /** Script which initializes environment. */
-    private static final String PRECONDITION_SCRIPT =
-            "var output = \"\"; function printOutput(text) { output += text + \"\\n\" }";
-
-    /** Script which returns output. */
-    private static final String RETURN_SCRIPT = "output";
-
     /** Factory to instantiate script engine. */
     @Autowired
     private BeanFactory factory;
 
     @Override
-    public ScriptExecutionResultDto execute(ScriptExecutionResultDto script, long times) {
+    public ScriptExecutionResultDto execute(ScriptExecutionResultDto script, TaskDto task) {
+        // TODO define engine in task.
         ScriptEngine engine = (ScriptEngine)factory.getBean(JS_ENGINE);
         long startTime;
         long stopTime;
         long totalTime = 0;
         long minTime = Long.MAX_VALUE;
-        Object output = null;
+        Object outputObject = null;
         Object scriptResult = null;
         final String body = script.getBody();
-        LOG.debug("Try test script:\n{}\n{} times:", body, times);
+        final Long testIterationsNumber = task.getTestIterationsNumber();
+        LOG.debug("Try test script {} times:\n{}\n:", testIterationsNumber, body);
         try {
-            for (long i = 0; i < times; i++) {
-                engine.eval(PRECONDITION_SCRIPT);
+
+            for (long i = 0; i < testIterationsNumber; i++) {
+                engine.eval(task.getPreconditionScript());
                 startTime = System.nanoTime();
                 scriptResult = engine.eval(body);
                 stopTime = System.nanoTime();
@@ -58,16 +55,24 @@ public class ScriptMeasurementsExecutorImpl implements ScriptMeasurementsExecuto
                     minTime = runTime;
                 }
             }
-            output = engine.eval(RETURN_SCRIPT);
+            outputObject = engine.eval(task.getOutputScript());
         } catch (ScriptException e) {
             LOG.error("Failed to evaluate script", e);
             script.setErrorCause(e);
         }
-        script.setOutput(convertToString(output));
+        final String output = convertToString(outputObject);
+        script.setOutput(output);
         script.setResult(convertToString(scriptResult));
-        script.setExecutionTimeInNanoseconds(totalTime / times);
+        script.setExecutionTimeInNanoseconds(totalTime / testIterationsNumber);
         script.setMinExecutionTimeInNanoseconds(minTime);
-        LOG.debug("Last execution output:\n{}", output);
+        if (task.getOutput().equals(output)) {
+            script.setSucceeded(true);
+            LOG.debug("Last execution output equal to task required output - success.");
+        } else {
+            script.setSucceeded(false);
+            LOG.debug("Last execution output NOT equal to task required output - failure.");
+        }
+        // LOG.debug("Last execution output:\n{}", outputObject);
         return script;
     }
 
@@ -77,7 +82,7 @@ public class ScriptMeasurementsExecutorImpl implements ScriptMeasurementsExecuto
      * @return String representation.
      */
     private String convertToString(Object output) {
-        return (output != null) ? output.toString() : null;
+        return (output != null) ? new String(output.toString()) : null;
     }
 /*
     public static void main(String[] args) throws ScriptException {

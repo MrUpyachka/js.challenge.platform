@@ -8,13 +8,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import qq.upyachka.js.contest.core.api.rest.AbstractViewNavigationController;
+import qq.upyachka.js.contest.core.dto.ScriptExecutionResultDto;
+import qq.upyachka.js.contest.core.dto.TaskDto;
 import qq.upyachka.js.contest.core.error.PlatformException;
-import qq.upyachka.js.contest.platform.script.ScriptExecutionResultDto;
 import qq.upyachka.js.contest.platform.service.JavaScriptExecutionService;
+import qq.upyachka.js.contest.platform.service.TaskService;
 import qq.upyachka.js.contest.platform.service.TopListService;
 import qq.upyachka.js.contest.platform.utils.FileUtils;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 import static qq.upyachka.js.contest.core.constants.UrlConst.EXECUTION_DETAILS_VIEW_PATH;
 import static qq.upyachka.js.contest.core.model.constants.ParamConst.*;
@@ -41,29 +44,41 @@ public class PlatformRestApiController extends AbstractViewNavigationController 
     @Autowired
     private TopListService topListService;
 
+    /** Service which provides access to task list. */
+    @Autowired
+    private TaskService taskService;
+
     /**
-     * Default end-point which displays top 100 of executions.
+     * End-point which preserves taskId in session and redirects to the view with TOP list.
+     * @param taskId task identifier.
      * @param model context model.
      * @param session session of request.
-     * @return view with top of executions and form for new execution.
+     * @return redirect to view.
      */
     @GetMapping
-    public ModelAndView runScript(Model model, HttpSession session) {
-        Long previousResult = (Long)session.getAttribute(PREVIOUS_RESULT);
+    public ModelAndView getPage(@RequestParam(required = false) Long taskId, Model model, HttpSession session) {
+        if (taskId == null) {
+            taskId = (Long)session.getAttribute(TASK_ID);
+        }
+        final Long previousResult = (Long)session.getAttribute(PREVIOUS_RESULT);
         if (previousResult != null) {
             LOG.debug("Try update data for execution {}", previousResult);
             model.addAttribute(PREVIOUS_RESULT, service.getExecution(previousResult));
         }
-        fillModelWithTopList(model);
+        final List<TaskDto> tasks = taskService.getTasks();
+        model.addAttribute(TASKS_LIST, tasks);
+        if (taskId == null && tasks.size() > 0) {
+            LOG.debug("No task selected in session. Set default as first in tasks.");
+            taskId = tasks.get(0).getId();
+        }
+        if (taskId != null) {
+            model.addAttribute(TOP_LIST, topListService.getTop100(taskId));
+        }
+        if (taskId != null) {
+            session.setAttribute(TASK_ID, taskId);
+            LOG.debug("Task id {} saved in session.", taskId);
+        }
         return new ModelAndView(HOME_VIEW, model.asMap());
-    }
-
-    /**
-     * Saves actual top of best executions to specified model.
-     * @param model model to be enriched.
-     */
-    private void fillModelWithTopList(Model model) {
-        model.addAttribute(TOP_LIST, topListService.getTop100());
     }
 
     /**
@@ -81,18 +96,21 @@ public class PlatformRestApiController extends AbstractViewNavigationController 
     /**
      * End-point to run user script.
      * @param file selected script file.
+     * @param taskId task identifier.
      * @param model context model.
      * @param session session of request.
      * @return view with top of executions and form for new execution.
-     * @throws PlatformException in case of execution errors
+     * @throws PlatformException in case of execution errors.
      */
     // TODO exception mapper for errors handling
     @PostMapping
-    public ModelAndView runScript(@RequestParam MultipartFile file, Model model, HttpSession session)
+    public ModelAndView runScript(@RequestParam MultipartFile file, @RequestParam Long taskId, Model model,
+                                  HttpSession session)
     throws PlatformException {
         final String script = FileUtils.readFile(file);
-        final ScriptExecutionResultDto result = service.execute(script);
+        final ScriptExecutionResultDto result = service.execute(script, taskId);
         session.setAttribute(PREVIOUS_RESULT, result.getId());
+        session.setAttribute(TASK_ID, taskId);
         return redirectToRoot(model);
     }
 }

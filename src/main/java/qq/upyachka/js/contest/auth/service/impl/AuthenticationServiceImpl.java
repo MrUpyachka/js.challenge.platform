@@ -39,13 +39,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
         manager.authenticate(usernamePasswordAuthenticationToken);
-        LOG.debug("User {} authenticated.", username);
+        LOG.debug("UserDo {} authenticated.", username);
         if (usernamePasswordAuthenticationToken.isAuthenticated()) {
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-            LOG.debug("User {} successfully logged in.", username);
+            LOG.debug("UserDo {} successfully logged in.", username);
         } else {
             LOG.debug("Attempt to login with wrong password for {}.", username);
-            throw new BadCredentialsException("User with such name and password not found");
+            throw new BadCredentialsException("UserDo with such name and password not found");
         }
     }
 }

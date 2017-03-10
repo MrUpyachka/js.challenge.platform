@@ -7,8 +7,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import qq.upyachka.js.contest.core.model.Role;
-import qq.upyachka.js.contest.core.model.User;
+import qq.upyachka.js.contest.core.model.user.Role;
+import qq.upyachka.js.contest.core.model.user.UserDo;
 
 import java.util.Set;
 
@@ -24,13 +24,13 @@ public class UserDetailsParserImpl implements UserDetailsParser {
     private static final Logger LOG = LogManager.getLogger(UserDetailsParserImpl.class);
 
     @Override
-    public UserDetails parse(User source) {
+    public UserDetails parse(UserDo source) {
         Set<GrantedAuthority> authorities = Sets.newHashSet();
         for (Role role : source.getRoles()){
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
         if (LOG.isDebugEnabled()) {
-            LOG.debug("User {} has granted authorities: {}", source.getUsername(), authorities);
+            LOG.debug("UserDo {} has granted authorities: {}", source.getUsername(), authorities);
         }
         return new org.springframework.security.core.userdetails.User(source.getUsername(), source.getPassword(),
                                                                       authorities);

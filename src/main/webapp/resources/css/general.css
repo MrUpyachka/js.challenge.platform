@@ -48,10 +48,13 @@ body {
     width: 100%;
 }
 .execution-item > * {
-    flex: 0 1 33%;
+    flex: 0 1 25%;
     align-self: auto;
 
     text-align: center;
+}
+.execution-item .label {
+    font-size: 100%;
 }
 .execution-details-box > div > * {
     flex: 0 1 50%;
@@ -62,4 +65,26 @@ code {
     padding: 0;
     color: darkcyan;
     background-color: transparent;
+}
+.form-group {
+    width: 100%;
+}
+.results-box .well,
+.results-box .top-list-box .well:last-child {
+    margin-bottom: 0;
+}
+.results-box .top-list-box .well {
+    margin-bottom: .2em;
+}
+
+.results-box .well {
+    padding: .2em;
+}
+.results-box .well h5,
+.results-box .panel-heading {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+.top-list-box .panel-heading {
+    margin-bottom: .2em;
 }

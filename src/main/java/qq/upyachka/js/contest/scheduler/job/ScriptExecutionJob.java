@@ -9,15 +9,16 @@ import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
-import qq.upyachka.js.contest.core.model.ScriptExecutionResultDo;
+import qq.upyachka.js.contest.core.dto.ScriptExecutionResultDto;
+import qq.upyachka.js.contest.core.dto.TaskDto;
+import qq.upyachka.js.contest.core.dto.utils.TaskCopyUtils;
+import qq.upyachka.js.contest.core.model.script.ScriptExecutionResultDo;
 import qq.upyachka.js.contest.core.repository.ScriptResultRepository;
-import qq.upyachka.js.contest.platform.script.ScriptExecutionResultDto;
 import qq.upyachka.js.contest.platform.script.executor.ScriptMeasurementsExecutor;
 
+import static qq.upyachka.js.contest.core.dto.utils.ScriptExecutionResultCopyUtils.*;
 import static qq.upyachka.js.contest.platform.api.constants.PlatformConst.ITERATIONS_NUMBER_KEY;
 import static qq.upyachka.js.contest.platform.api.constants.PlatformConst.SCRIPT_KEY;
-import static qq.upyachka.js.contest.platform.script.ScriptExecutionResultParser.parse;
-import static qq.upyachka.js.contest.platform.script.ScriptExecutionResultParser.parseContent;
 
 /**
  * Created on 01.03.17.
@@ -45,10 +46,14 @@ public class ScriptExecutionJob extends QuartzJobBean {
         final Long iterationsNumber = (Long)dataMap.get(ITERATIONS_NUMBER_KEY);
         LOG.debug("Try handle script with ID {}", scriptId);
         ScriptExecutionResultDo execution = executions.findOne(scriptId);
-        ScriptExecutionResultDto result = executor.execute(parse(execution), iterationsNumber);
-        parseContent(result, execution);
+        TaskDto task = new TaskDto();
+        TaskCopyUtils.parseContent(execution.getTask(), task);
+        ScriptExecutionResultDto result = executor.execute(parse(execution), task);
+        parseDataContent(result, execution);
+        parseCommonContent(result, execution);
         if (result.getErrorCause() == null) {
-            LOG.debug("Script successfully executed.");
+            LOG.debug("Script successfully executed. Output validation: {}.",
+                      (result.getSucceeded()) ? "succeeded" : "failed");
         } else {
             LOG.debug("Script {} of {} execution failed", execution.getId(), execution.getOwner().getUsername());
         }

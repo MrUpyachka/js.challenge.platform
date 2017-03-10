@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import qq.upyachka.js.contest.auth.service.AuthenticationService;
-import qq.upyachka.js.contest.core.model.User;
+import qq.upyachka.js.contest.core.model.user.UserDo;
 
 import static qq.upyachka.js.contest.auth.constants.AuthUrlConst.LOGIN_URL;
 import static qq.upyachka.js.contest.core.model.constants.ParamConst.*;
@@ -35,23 +35,23 @@ public class LoginRestController {
      */
     @GetMapping
     public ModelAndView login(Model model) {
-        model.addAttribute(USER_KEY, new User());
+        model.addAttribute(USER_KEY, new UserDo());
         LOG.debug("Show login view.");
         return new ModelAndView(LOGIN_VIEW, model.asMap());
     }
 
     /**
      * End-point for logging in.
-     * @param user user credentials.
+     * @param userDo userDo credentials.
      * @param model actual model.
      * @param error error of previous login to attempt.
-     * @param logout token that means logout by user.
+     * @param logout token that means logout by userDo.
      * @return login view.
      */
     @PostMapping
-    public ModelAndView login(@ModelAttribute(USER_KEY) User user,
+    public ModelAndView login(@ModelAttribute(USER_KEY) UserDo userDo,
                               Model model, String error, String logout) {
-        LOG.debug("Try login as {}.", user.getUsername());
+        LOG.debug("Try login as {}.", userDo.getUsername());
         if (error != null) {
             LOG.debug("Add error to attributes: {}", error);
             model.addAttribute(ERROR, error);

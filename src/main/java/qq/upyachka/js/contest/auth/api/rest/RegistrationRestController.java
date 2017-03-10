@@ -11,7 +11,7 @@ import qq.upyachka.js.contest.auth.service.AuthenticationService;
 import qq.upyachka.js.contest.auth.service.RegistrationService;
 import qq.upyachka.js.contest.auth.validation.UserRegistrationValidator;
 import qq.upyachka.js.contest.core.api.rest.AbstractViewNavigationController;
-import qq.upyachka.js.contest.core.model.User;
+import qq.upyachka.js.contest.core.model.user.UserDo;
 
 import static qq.upyachka.js.contest.auth.constants.AuthUrlConst.REGISTRATION_URL;
 import static qq.upyachka.js.contest.core.model.constants.ParamConst.USER_KEY;
@@ -48,31 +48,31 @@ public class RegistrationRestController extends AbstractViewNavigationController
      */
     @GetMapping
     public ModelAndView registration(Model model) {
-        model.addAttribute(USER_KEY, new User());
+        model.addAttribute(USER_KEY, new UserDo());
         LOG.debug("Show registration view");
         return new ModelAndView(REGISTRATION_VIEW, model.asMap());
     }
 
     /**
-     * End-point to start user registration.
-     * @param user user data from client.
+     * End-point to start userDo registration.
+     * @param userDo userDo data from client.
      * @param bindingResult result of validation.
      * @param model model from context.
      * @return registration view or home view.
      */
     @PostMapping
-    public ModelAndView tryRegister(@ModelAttribute(USER_KEY) User user, BindingResult bindingResult, Model model) {
-        final String username = user.getUsername();
-        LOG.debug("Try register user with name {}.", username);
-        validator.validate(user, bindingResult);
+    public ModelAndView tryRegister(@ModelAttribute(USER_KEY) UserDo userDo, BindingResult bindingResult, Model model) {
+        final String username = userDo.getUsername();
+        LOG.debug("Try register userDo with name {}.", username);
+        validator.validate(userDo, bindingResult);
         if (bindingResult.hasErrors()) {
             LOG.debug("Validation failed, stay on view.");
             return new ModelAndView(REGISTRATION_VIEW, model.asMap());
         }
-        final String password = user.getPassword();
-        service.register(user);
+        final String password = userDo.getPassword();
+        service.register(userDo);
         authentication.login(username, password);
-        LOG.debug("User {} registered and automatically logged in.", username);
+        LOG.debug("UserDo {} registered and automatically logged in.", username);
         return redirectToRoot(model);
     }
 }

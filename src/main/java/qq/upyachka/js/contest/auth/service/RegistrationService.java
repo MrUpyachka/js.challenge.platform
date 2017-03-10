@@ -1,6 +1,6 @@
 package qq.upyachka.js.contest.auth.service;
 
-import qq.upyachka.js.contest.core.model.User;
+import qq.upyachka.js.contest.core.model.user.UserDo;
 
 /**
  * Provides registration functionality.
@@ -9,10 +9,10 @@ import qq.upyachka.js.contest.core.model.User;
  */
 public interface RegistrationService {
     /**
-     * Registers user with specified information.
-     * @param user user-information.
+     * Registers userDo with specified information.
+     * @param userDo userDo-information.
      */
-    void register(User user);
+    void register(UserDo userDo);
 
     /**
      * Checks that specified username already occupied.

@@ -13,6 +13,9 @@ public final class ViewConst {
     /** Name of home view. */
     public static final String HOME_VIEW = "home";
 
+    /** Name of task details view. */
+    public static final String TASK_VIEW = "task";
+
     /** Name of view for login. */
     public static final String LOGIN_VIEW = "login";
 

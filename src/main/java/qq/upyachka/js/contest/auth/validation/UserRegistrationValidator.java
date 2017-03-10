@@ -6,10 +6,10 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import qq.upyachka.js.contest.auth.service.RegistrationService;
-import qq.upyachka.js.contest.core.model.User;
+import qq.upyachka.js.contest.core.model.user.UserDo;
 
 /**
- * Validator for {@link User}.
+ * Validator for {@link UserDo}.
  * Created on 24.02.17.
  * @author upyachka.
  */
@@ -55,15 +55,15 @@ public class UserRegistrationValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return User.class.equals(clazz);
+        return UserDo.class.equals(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        User user = (User)target;
+        UserDo userDo = (UserDo)target;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, USERNAME_FIELD, NOT_EMPTY_ERROR);
-        final String username = user.getUsername();
-        final int usernameLength = user.getUsername().length();
+        final String username = userDo.getUsername();
+        final int usernameLength = userDo.getUsername().length();
         if (usernameLength < USERNAME_MIN_LENGTH || usernameLength > USERNAME_MAX_LENGTH) {
             errors.rejectValue(USERNAME_FIELD, USER_NAME_LENGTH_ERROR);
         }
@@ -71,7 +71,7 @@ public class UserRegistrationValidator implements Validator {
             errors.rejectValue(USERNAME_FIELD, USER_NAME_REGISTERED_ERROR);
         }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, PASSWORD_FIELD, NOT_EMPTY_ERROR);
-        final int passwordLength = user.getPassword().length();
+        final int passwordLength = userDo.getPassword().length();
         if (passwordLength < PASSWORD_MIN_LENGTH || passwordLength > PASSWORD_MAX_LENGTH) {
             errors.rejectValue(PASSWORD_FIELD, USER_PASS_LENGTH_ERROR);
         }

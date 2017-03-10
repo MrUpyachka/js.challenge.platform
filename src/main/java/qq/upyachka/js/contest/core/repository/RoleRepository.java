@@ -1,7 +1,7 @@
 package qq.upyachka.js.contest.core.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import qq.upyachka.js.contest.core.model.Role;
+import qq.upyachka.js.contest.core.model.user.Role;
 
 /**
  * Repository of {@link Role}.

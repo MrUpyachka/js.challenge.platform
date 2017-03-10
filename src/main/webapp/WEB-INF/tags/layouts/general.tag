@@ -23,12 +23,12 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
         <!--
-            <link href="./resources/css/bootstrap.min.css" rel="stylesheet">
-            <link href="./resources/css/bootstrap-theme.min.css" rel="stylesheet">
-            <script src="./resources/js/bootstrap.min.js"/></script>
+            <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+            <link href="${contextPath}/resources/css/bootstrap-theme.min.css" rel="stylesheet">
+            <script src="${contextPath}/resources/js/bootstrap.min.js"/></script>
         -->
 
-        <link href="./resources/css/general.css" rel="stylesheet">
+        <link href="${contextPath}/resources/css/general.css" rel="stylesheet">
         <jsp:invoke fragment="miscHead"/>
     </head>
 

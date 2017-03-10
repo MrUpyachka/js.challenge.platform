@@ -8,10 +8,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import qq.upyachka.js.contest.core.model.ScriptExecutionResultDo;
+import qq.upyachka.js.contest.core.dto.ScriptExecutionResultDto;
+import qq.upyachka.js.contest.core.dto.utils.ScriptExecutionResultCopyUtils;
+import qq.upyachka.js.contest.core.model.script.ScriptExecutionResultDo;
 import qq.upyachka.js.contest.core.repository.ScriptResultRepository;
-import qq.upyachka.js.contest.platform.script.ScriptExecutionResultDto;
-import qq.upyachka.js.contest.platform.script.ScriptExecutionResultParser;
 import qq.upyachka.js.contest.platform.service.TopListService;
 
 import javax.transaction.Transactional;
@@ -34,10 +34,10 @@ public class TopListServiceImpl implements TopListService {
 
     @Override
     @Transactional
-    public List<ScriptExecutionResultDto> getTop100() {
+    public List<ScriptExecutionResultDto> getTop100(Long taskId) {
         final Pageable top100 = new PageRequest(0, 100);
-        final Page<ScriptExecutionResultDo> page = executions.getTop(top100);
+        final Page<ScriptExecutionResultDo> page = executions.getTop(taskId, top100);
         LOG.debug("Found {} executions in TOP100", page.getTotalElements());
-        return ScriptExecutionResultParser.parse(Lists.newArrayList(page.iterator()));
+        return ScriptExecutionResultCopyUtils.parse(Lists.newArrayList(page.iterator()));
     }
 }
