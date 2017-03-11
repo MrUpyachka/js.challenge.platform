@@ -1,5 +1,6 @@
 package qq.upyachka.js.contest.platform.configuration;
 
+import groovy.lang.GroovyShell;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
@@ -13,6 +14,7 @@ import javax.script.ScriptEngineManager;
 
 import static qq.upyachka.js.contest.core.constants.UrlConst.RESOURCES_PATH_URL;
 import static qq.upyachka.js.contest.core.constants.UrlConst.RESOURCES_URL_PATTERN;
+import static qq.upyachka.js.contest.platform.configuration.constants.ConfigurationConst.GROOVY_SHELL_NAME;
 import static qq.upyachka.js.contest.platform.configuration.constants.ConfigurationConst.RHINO_NAME;
 
 /**
@@ -45,8 +47,16 @@ public class RootConfiguration extends WebMvcConfigurerAdapter {
      */
     @Bean(RHINO_NAME)
     public ScriptEngine jsEngine() {
-        // TODO provide name of engine through properties.
         return new ScriptEngineManager().getEngineByName(RHINO_NAME);
+    }
+
+    /**
+     * Script engine to execute Groovy scripts from client.
+     * @return Groovy shell.
+     */
+    @Bean(GROOVY_SHELL_NAME)
+    public GroovyShell groovyShell() {
+        return new GroovyShell();
     }
 
 }

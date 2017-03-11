@@ -7,11 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import qq.upyachka.js.contest.core.dto.ScriptExecutionResultDto;
 import qq.upyachka.js.contest.core.dto.TaskDto;
+import qq.upyachka.js.contest.platform.script.engine.SimpleEngine;
 
-import javax.script.ScriptEngine;
 import javax.script.ScriptException;
-
-import static qq.upyachka.js.contest.platform.configuration.constants.ConfigurationConst.JS_ENGINE;
 
 /**
  * Implementation of {@link ScriptMeasurementsExecutor}.
@@ -30,50 +28,91 @@ public class ScriptMeasurementsExecutorImpl implements ScriptMeasurementsExecuto
 
     @Override
     public ScriptExecutionResultDto execute(ScriptExecutionResultDto script, TaskDto task) {
-        // TODO define engine in task.
-        ScriptEngine engine = (ScriptEngine)factory.getBean(JS_ENGINE);
+        SimpleEngine engine = (SimpleEngine)factory.getBean(task.getEngine());
+        testScriptOutput(engine, script, task);
+        if (script.getSucceeded()) {
+            testScriptExecutionTime(engine, script, task);
+        } else {
+            LOG.debug("Script not fulfils requirements, prevent testing for execution time.");
+        }
+        return script;
+    }
+
+    /**
+     * Tests script that it returns required result.
+     * @param engine engine to be used.
+     * @param script script details.
+     * @param task task details.
+     */
+    private void testScriptOutput(SimpleEngine engine, ScriptExecutionResultDto script, TaskDto task) {
+        Object outputObject = null;
+        Object scriptResult = null;
+        final String body = script.getBody();
+        LOG.debug("Try test script output:\n{}\n:", body);
+        try {
+            engine.eval(task.getPreconditionScript());
+            scriptResult = engine.eval(body);
+            outputObject = engine.eval(task.getOutputScript());
+        } catch (ScriptException e) {
+            LOG.error("Failed to evaluate script", e);
+            fillErrorCause(script, e);
+        }
+        final String output = convertToString(outputObject);
+        script.setOutput(output);
+        script.setResult(convertToString(scriptResult));
+        if (task.getOutput().equals(output) && script.getErrorCause() == null) {
+            script.setSucceeded(true);
+            LOG.debug("Last execution output equal to task required output - success.");
+        } else {
+            script.setSucceeded(false);
+            LOG.debug("Last execution output NOT equal to task required output OR execution failed.");
+        }
+    }
+
+    /**
+     * Tests script for average and minimum execution time.
+     * @param engine engine to be used.
+     * @param script script details.
+     * @param task task details.
+     */
+    private void testScriptExecutionTime(SimpleEngine engine, ScriptExecutionResultDto script, TaskDto task) {
         long startTime;
         long stopTime;
         long totalTime = 0;
         long minTime = Long.MAX_VALUE;
-        Object outputObject = null;
-        Object scriptResult = null;
         final String body = script.getBody();
         final Long testIterationsNumber = task.getTestIterationsNumber();
         LOG.debug("Try test script {} times:\n{}\n:", testIterationsNumber, body);
         try {
-
             for (long i = 0; i < testIterationsNumber; i++) {
                 engine.eval(task.getPreconditionScript());
                 startTime = System.nanoTime();
-                scriptResult = engine.eval(body);
+                engine.eval(body);
                 stopTime = System.nanoTime();
-                LOG.debug("Iteration time: {}", stopTime - startTime);
+                // LOG.debug("Iteration time: {}", stopTime - startTime);
                 long runTime = stopTime - startTime;
                 totalTime += runTime;
                 if (runTime < minTime) {
                     minTime = runTime;
                 }
             }
-            outputObject = engine.eval(task.getOutputScript());
         } catch (ScriptException e) {
             LOG.error("Failed to evaluate script", e);
-            script.setErrorCause(e);
+            fillErrorCause(script, e);
         }
-        final String output = convertToString(outputObject);
-        script.setOutput(output);
-        script.setResult(convertToString(scriptResult));
-        script.setExecutionTimeInNanoseconds(totalTime / testIterationsNumber);
+        final long executionTimeInNanoseconds = totalTime / testIterationsNumber;
+        script.setExecutionTimeInNanoseconds(executionTimeInNanoseconds);
         script.setMinExecutionTimeInNanoseconds(minTime);
-        if (task.getOutput().equals(output)) {
-            script.setSucceeded(true);
-            LOG.debug("Last execution output equal to task required output - success.");
-        } else {
-            script.setSucceeded(false);
-            LOG.debug("Last execution output NOT equal to task required output - failure.");
-        }
-        // LOG.debug("Last execution output:\n{}", outputObject);
-        return script;
+        LOG.debug("Script results: average time - {}, minimum time - {}", executionTimeInNanoseconds, minTime);
+    }
+
+    /**
+     * Fills script details with wrapped exception data.
+     * @param script details of script.
+     * @param e cause.
+     */
+    private void fillErrorCause(ScriptExecutionResultDto script, Exception e) {
+        script.setErrorCause(new Throwable(e.toString()));
     }
 
     /**
@@ -82,20 +121,6 @@ public class ScriptMeasurementsExecutorImpl implements ScriptMeasurementsExecuto
      * @return String representation.
      */
     private String convertToString(Object output) {
-        return (output != null) ? new String(output.toString()) : null;
+        return (output != null) ? output.toString() : null;
     }
-/*
-    public static void main(String[] args) throws ScriptException {
-        String script = "for(i=0;i<10;i++) { printChallenge(i) }";
-        ScriptEngine engine = new ScriptEngineManager().getEngineByName("rhino");
-        long startTime;
-        long stopTime;
-        engine.eval(PRECONDITION_SCRIPT);
-        startTime = System.currentTimeMillis();
-        engine.eval(script);
-        stopTime = System.currentTimeMillis();
-        Object result = engine.eval(RETURN_SCRIPT);
-        System.out.println(result);
-    }
-*/
 }

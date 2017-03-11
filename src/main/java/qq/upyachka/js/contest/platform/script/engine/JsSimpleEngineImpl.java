@@ -24,6 +24,10 @@ public class JsSimpleEngineImpl implements SimpleEngine {
 
     @Override
     public Object eval(String script) throws ScriptException {
-        return engine.eval(script);
+        try {
+            return engine.eval(script);
+        } catch (Exception e) {
+            throw new ScriptException(e);
+        }
     }
 }

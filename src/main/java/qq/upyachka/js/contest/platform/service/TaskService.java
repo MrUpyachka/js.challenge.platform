@@ -27,6 +27,7 @@ public interface TaskService {
     /**
      * Registers new task on platform.
      * @param task task to be registered.
+     * @return created or updated task.
      */
-    void saveTask(TaskDto task);
+    TaskDto saveTask(TaskDto task);
 }

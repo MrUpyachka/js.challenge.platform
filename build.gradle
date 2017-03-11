@@ -45,8 +45,8 @@ dependencies {
     compile "org.apache.commons:commons-io:$apacheCommonsVersion"
 
     compile "org.mozilla:rhino:$rhinoVersion",
-            "cat.inspiracio:rhino-js-engine:$rhinoVersion"
-
+            "cat.inspiracio:rhino-js-engine:$rhinoVersion",
+            "org.codehaus.groovy:groovy-all:+"
 
     compile "org.apache.commons:commons-lang3:$apacheCommonsLangVersion"
 

@@ -50,7 +50,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void saveTask(TaskDto task) {
+    public TaskDto saveTask(TaskDto task) {
         LOG.debug("Try to register task {}.", task.getName());
         TaskDo taskDo = new TaskDo();
         // Replace multiple line-endings caused by html inputs.
@@ -58,5 +58,8 @@ public class TaskServiceImpl implements TaskService {
         TaskCopyUtils.parseContent(task, taskDo);
         taskDo = tasks.save(taskDo);
         LOG.debug("Task {} registered with id {}", taskDo.getName(), taskDo.getId());
+        TaskDto result = new TaskDto();
+        TaskCopyUtils.parseContent(taskDo, result);
+        return result;
     }
 }

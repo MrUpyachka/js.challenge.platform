@@ -48,13 +48,17 @@ body {
     width: 100%;
 }
 .execution-item > * {
-    flex: 0 1 25%;
+    flex: 1 1 25%;
     align-self: auto;
 
     text-align: center;
 }
 .execution-item .label {
     font-size: 100%;
+    white-space: normal;
+}
+.execution-item .label-danger {
+    background-color: rgba(255, 125, 125, .4);
 }
 .execution-details-box > div > * {
     flex: 0 1 50%;

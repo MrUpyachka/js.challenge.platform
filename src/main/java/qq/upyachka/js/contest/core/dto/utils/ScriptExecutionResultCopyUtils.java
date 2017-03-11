@@ -45,8 +45,8 @@ public final class ScriptExecutionResultCopyUtils {
 
     /**
      * Parses references from {@link ScriptExecutionResultDo} source to {@link ScriptExecutionResultDto} target.
-     * @param source
-     * @param target
+     * @param source data-source.
+     * @param target target to store data.
      */
     public static void parseRefContent(ScriptExecutionResultDo source, ScriptExecutionResultDto target) {
         target.setId(source.getId());
@@ -71,8 +71,8 @@ public final class ScriptExecutionResultCopyUtils {
 
     /**
      * Parses result data from {@link ScriptExecutionResultDo} source to {@link ScriptExecutionResultDto} target.
-     * @param source
-     * @param target
+     * @param source data-source.
+     * @param target target to store data.
      */
     public static void parseDataContent(ScriptExecutionResultDo source, ScriptExecutionResultDto target) {
         target.setBody(parseStringLob(source.getBody()));

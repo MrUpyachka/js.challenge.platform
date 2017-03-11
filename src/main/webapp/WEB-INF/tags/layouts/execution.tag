@@ -13,21 +13,21 @@
     </h5>
     <c:choose>
         <c:when test="${executionData.getErrorCause() != null}">
-            <h5>Failed with exception:</h5>
+            <h5>Failed</h5>
+            <span class="label label-danger">
+                ${executionData.getErrorCause().toString()}
+            </span>
+        </c:when>
+        <c:when test="${executionData.getSucceeded() != null && !executionData.getSucceeded()}">
+            <h5>Failed</h5>
             <span class="label label-default">
-                "${executionData.getErrorCause().toString()}"
+                Wrong output
             </span>
         </c:when>
         <c:when test="${executionData.getMinExecutionTimeInNanoseconds() == null}">
             <h5>Pending</h5>
             <span class="label label-default">
                 Not finished.
-            </span>
-        </c:when>
-        <c:when test="${executionData.getMinExecutionTimeInNanoseconds() != null && !executionData.getSucceeded()}">
-            <h5>Wrong output</h5>
-            <span class="label label-default">
-                <c:out value="${executionData.getMinExecutionTimeInNanoseconds()}" />
             </span>
         </c:when>
         <c:otherwise>

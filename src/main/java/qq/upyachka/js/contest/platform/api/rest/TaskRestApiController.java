@@ -78,6 +78,13 @@ public class TaskRestApiController extends AbstractViewNavigationController {
         return taskId != null && !EMPTY_ID.equals(taskId);
     }
 
+    /**
+     * Fills session and model with data of specified task.
+     * @param taskId task identifier.
+     * @param model context model.
+     * @param session session of request.
+     * @return redirect to normal URL.
+     */
     @GetMapping(path = "/{taskId}")
     public ModelAndView redirectToTask(@PathVariable Long taskId, Model model, HttpSession session) {
         if (isTaskSelected(taskId)) {
@@ -99,7 +106,8 @@ public class TaskRestApiController extends AbstractViewNavigationController {
      * @return registration view or home view.
      */
     @PostMapping
-    public ModelAndView tryRegister(@ModelAttribute(TASK_KEY) TaskDto task, BindingResult bindingResult, Model model) {
+    public ModelAndView tryRegister(@ModelAttribute(TASK_KEY) TaskDto task, BindingResult bindingResult, Model model,
+                                    HttpSession session) {
         final String name = task.getName();
         LOG.debug("Try register task with name {}.", name);
         if (bindingResult.hasErrors()) {
@@ -109,8 +117,9 @@ public class TaskRestApiController extends AbstractViewNavigationController {
         if (EMPTY_ID.equals(task.getId())) {
             task.setId(null);
         }
-        taskService.saveTask(task);
+        final TaskDto savedDto = taskService.saveTask(task);
         LOG.debug("Task {} registered.", name);
+        session.setAttribute(TASK_ID, savedDto.getId());
         return new ModelAndView(REDIRECT_URL_PREFIX + TASK_VIEW);
     }
 }
