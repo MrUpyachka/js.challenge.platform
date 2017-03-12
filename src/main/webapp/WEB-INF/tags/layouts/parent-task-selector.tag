@@ -9,7 +9,12 @@
 <%@ attribute name="tasksList" required="true" type="java.util.List" %>
 <%@ attribute name="name" required="true" %>
 
-<t:task-selector-script/>
+<script>
+    function onTaskChanged() {
+        var taskId = $("#task-selector").val();
+        window.location = window.location.origin + window.location.pathname + taskId;
+    }
+</script>
 <select id="task-selector" name="${name}" class="form-control" onchange="onTaskChanged()">
     <c:forEach var="item" items="${tasksList}">
         <c:if test="${addNewAllowed}">

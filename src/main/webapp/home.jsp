@@ -21,6 +21,9 @@
         </script>
         <t:task-selector-script/>
     </jsp:attribute>
+    <jsp:attribute name="topBar">
+        <t:nav-menu homePageActive="true"/>
+    </jsp:attribute>
     <jsp:body>
         <form method="POST" enctype="multipart/form-data" class="script-form panel-default">
             <h4 class="action-header">Select task:</h4>

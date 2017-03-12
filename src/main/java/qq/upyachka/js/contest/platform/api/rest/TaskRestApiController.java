@@ -3,13 +3,14 @@ package qq.upyachka.js.contest.platform.api.rest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import qq.upyachka.js.contest.core.api.rest.AbstractViewNavigationController;
 import qq.upyachka.js.contest.core.dto.TaskDto;
-import qq.upyachka.js.contest.core.model.constants.ParamConst;
+import qq.upyachka.js.contest.core.roles.Roles;
 import qq.upyachka.js.contest.platform.service.TaskService;
 
 import javax.servlet.http.HttpSession;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import static qq.upyachka.js.contest.core.constants.UrlConst.REDIRECT_URL_PREFIX;
 import static qq.upyachka.js.contest.core.model.constants.ParamConst.*;
 import static qq.upyachka.js.contest.core.model.constants.ViewConst.TASK_VIEW;
+import static qq.upyachka.js.contest.platform.api.utils.ParamUtils.isItemSelected;
 
 /**
  * Serves request for operations with tasks.<br>
@@ -54,28 +56,19 @@ public class TaskRestApiController extends AbstractViewNavigationController {
      * @param session session of request.
      */
     private void handleModelAndSession(Long taskId, Model model, HttpSession session) {
-        if (!isTaskSelected(taskId)) {
+        if (!isItemSelected(taskId)) {
             taskId = (Long)session.getAttribute(TASK_ID);
             LOG.debug("Task not specified. {} returned from session.", taskId);
         }
         model.addAttribute(TASKS_LIST, taskService.getTasks());
-        if (isTaskSelected(taskId)) {
+        if (isItemSelected(taskId)) {
             model.addAttribute(TASK_KEY, taskService.getTask(taskId));
-            LOG.debug("Task {} details seved to model.", taskId);
+            LOG.debug("Task {} details saved to model.", taskId);
         } else {
             final TaskDto taskDto = new TaskDto();
             LOG.debug("Task not specified. Put empty dto to model.");
             model.addAttribute(TASK_KEY, taskDto);
         }
-    }
-
-    /**
-     * Checks that task selected. {@link ParamConst#EMPTY_ID} means that no task selected.
-     * @param taskId task ID.
-     * @return true if selected existing task, false in opposite case.
-     */
-    private boolean isTaskSelected(Long taskId) {
-        return taskId != null && !EMPTY_ID.equals(taskId);
     }
 
     /**
@@ -87,7 +80,7 @@ public class TaskRestApiController extends AbstractViewNavigationController {
      */
     @GetMapping(path = "/{taskId}")
     public ModelAndView redirectToTask(@PathVariable Long taskId, Model model, HttpSession session) {
-        if (isTaskSelected(taskId)) {
+        if (isItemSelected(taskId)) {
             LOG.debug("Task id {} saved in session, redirect to normal processing.", taskId);
             session.setAttribute(TASK_ID, taskId);
         } else {
@@ -106,6 +99,7 @@ public class TaskRestApiController extends AbstractViewNavigationController {
      * @return registration view or home view.
      */
     @PostMapping
+    @PreAuthorize("hasAuthority('" + Roles.TASK_CREATOR + "')")
     public ModelAndView tryRegister(@ModelAttribute(TASK_KEY) TaskDto task, BindingResult bindingResult, Model model,
                                     HttpSession session) {
         final String name = task.getName();

@@ -20,9 +20,11 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 import static qq.upyachka.js.contest.core.constants.UrlConst.EXECUTION_DETAILS_VIEW_PATH;
+import static qq.upyachka.js.contest.core.constants.UrlConst.REDIRECT_URL_PREFIX;
 import static qq.upyachka.js.contest.core.model.constants.ParamConst.*;
 import static qq.upyachka.js.contest.core.model.constants.ViewConst.EXECUTION_DETAILS_VIEW;
 import static qq.upyachka.js.contest.core.model.constants.ViewConst.HOME_VIEW;
+import static qq.upyachka.js.contest.platform.api.utils.ParamUtils.isItemSelected;
 
 /**
  * General controller for REST API for script execution.
@@ -50,35 +52,70 @@ public class PlatformRestApiController extends AbstractViewNavigationController 
 
     /**
      * End-point which preserves taskId in session and redirects to the view with TOP list.
-     * @param taskId task identifier.
      * @param model context model.
      * @param session session of request.
      * @return redirect to view.
      */
     @GetMapping
-    public ModelAndView getPage(@RequestParam(required = false) Long taskId, Model model, HttpSession session) {
-        if (taskId == null) {
-            taskId = (Long)session.getAttribute(TASK_ID);
-        }
+    public ModelAndView getPage(Model model, HttpSession session) {
+        handleModelAndSession(null, model, session);
+        return new ModelAndView(HOME_VIEW, model.asMap());
+    }
+
+    /**
+     * Configures session and model for specified task.
+     * @param taskId task identifier.
+     * @param model context model.
+     * @param session session of request.
+     */
+    private void handleModelAndSession(Long taskId, Model model, HttpSession session) {
         final Long previousResult = (Long)session.getAttribute(PREVIOUS_RESULT);
         if (previousResult != null) {
             LOG.debug("Try update data for execution {}", previousResult);
             model.addAttribute(PREVIOUS_RESULT, service.getExecution(previousResult));
         }
+
         final List<TaskDto> tasks = taskService.getTasks();
         model.addAttribute(TASKS_LIST, tasks);
-        if (taskId == null && tasks.size() > 0) {
+        if (!isItemSelected(taskId)) {
+            taskId = (Long)session.getAttribute(TASK_ID);
             LOG.debug("No task selected in session. Set default as first in tasks.");
-            taskId = tasks.get(0).getId();
-        }
-        if (taskId != null) {
-            model.addAttribute(TOP_LIST, topListService.getTop100(taskId));
-        }
-        if (taskId != null) {
+            if (taskId == null && tasks.size() > 0) {
+                taskId = tasks.get(0).getId();
+                LOG.debug("Task not specified. {} returned from session.", taskId);
+            }
+        } else {
             session.setAttribute(TASK_ID, taskId);
             LOG.debug("Task id {} saved in session.", taskId);
         }
-        return new ModelAndView(HOME_VIEW, model.asMap());
+        model.addAttribute(TASKS_LIST, taskService.getTasks());
+        if (isItemSelected(taskId)) {
+            model.addAttribute(TOP_LIST, topListService.getTop100(taskId));
+        } else {
+            final TaskDto taskDto = new TaskDto();
+            LOG.debug("Task not specified. Put empty dto to model.");
+            model.addAttribute(TASK_KEY, taskDto);
+        }
+    }
+
+    /**
+     * Fills session and model with data of specified task.
+     * @param taskId task identifier.
+     * @param model context model.
+     * @param session session of request.
+     * @return redirect to normal URL.
+     */
+    @GetMapping(path = "/{taskId}")
+    public ModelAndView redirect(@PathVariable Long taskId, Model model, HttpSession session) {
+        if (isItemSelected(taskId)) {
+            LOG.debug("Task id {} saved in session, redirect to normal processing.", taskId);
+            session.setAttribute(TASK_ID, taskId);
+        } else {
+            LOG.debug("Task id removed from session.");
+            session.removeAttribute(TASK_ID);
+        }
+        handleModelAndSession(taskId, model, session);
+        return new ModelAndView(REDIRECT_URL_PREFIX, model.asMap());
     }
 
     /**

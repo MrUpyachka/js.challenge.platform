@@ -38,7 +38,8 @@ dependencies {
             'org.springframework.boot:spring-boot-starter-data-jpa',
             'org.springframework.boot:spring-boot-starter-security',
             'org.springframework:spring-context-support',
-            "org.springframework:spring-webmvc:$springWebMvcVersion"
+            "org.springframework:spring-webmvc:$springWebMvcVersion",
+            "org.springframework.security:spring-security-taglibs:+"
 
     compile "com.google.guava:guava:$guavaVersion"
 
